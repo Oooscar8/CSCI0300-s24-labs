@@ -139,7 +139,7 @@ void run_test(void (*func)(), const char *message)
  */
 int main(int argc, char **argv)
 {
-  if (atoi(argv[1]) == argc - 1)
+  if (argc != 1 && argc - 2 != atoi(argv[1]))
   {
     // 触发一个错误，退出状态码为 1
     fprintf(stderr, "Error: The number of elements inputted should correspond to the number of elements to be reversed.\n");
@@ -149,14 +149,14 @@ int main(int argc, char **argv)
   if (argc > 1)
   {
     char *arr[argc];
-    for (int i = 0; i < argc; i++)
+    for (int i = 0; i < argc - 2; i++)
     {
       arr[i] = argv[i + 2];
     }
 
-    reverse_arr(arr, argc);
+    reverse_arr(arr, argc - 2);
 
-    for (int i = 0; i < argc; i++)
+    for (int i = 0; i < argc - 2; i++)
     {
       printf("%s ", arr[i]);
     }
