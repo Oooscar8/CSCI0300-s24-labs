@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
 #include "reverse.h"
 
 static int total_tests = 0;
@@ -15,48 +16,40 @@ static int num_incorrect = 0;
  * error message if not
  */
 void assert_equal(char **expected, char **actual, const char *message,
-                  int len)
-{
+                  int len) {
   total_tests++;
   int element_correct = 0;
   int element_incorrect = 0;
 
-  for (int i = 0; i < len; i++)
-  {
-    if (!strcmp(expected[i], actual[i]))
-    {
+  for (int i = 0; i < len; i++) {
+    if (!strcmp(expected[i], actual[i])) {
       element_correct++;
-      if (element_correct == len)
-        num_correct++;
-    }
-    else
-    {
+      if (element_correct == len) num_correct++;
+    } else {
       element_incorrect++;
-      if (element_correct == len)
-        num_incorrect++;
-      printf("\033[0;31m"); // set color to red
+      if (element_correct == len) num_incorrect++;
+      printf("\033[0;31m");  // set color to red
       printf(
           "[FAILED Test %d: %s]: At index: %d, expected string: %s, actual "
           "string: %s\n",
           total_tests, message, i, expected[i], actual[i]);
-      printf("\033[0m"); // reset text to default color
+      printf("\033[0m");  // reset text to default color
     }
   }
 
-  // If no elements are wrong, the test passed! Print a message that says this :)
-  if (element_incorrect == 0)
-  {
-    printf("\033[0;32m"); // set color to green
+  // If no elements are wrong, the test passed! Print a message that says this
+  // :)
+  if (element_incorrect == 0) {
+    printf("\033[0;32m");  // set color to green
     printf("[PASSED Test %d: %s]\n", total_tests, message);
-    printf("\033[0m"); // reset text to default color
+    printf("\033[0m");  // reset text to default color
   }
 }
 
 /**
  * Runs tests for student implementation of reverse
  */
-void test_reverse()
-{
+void test_reverse() {
   // test 1: test single element
   char *str[] = {"hello"};
   reverse_arr(str, 1);
@@ -99,8 +92,7 @@ void test_reverse()
 /**
  * prints a summary based on the number of tests passed and failed
  */
-void print_test_summary()
-{
+void print_test_summary() {
   printf("Passed %d tests, Failed %d tests | %f%%\n", num_correct,
          num_incorrect,
          100 * ceil((float)num_correct) / (total_tests == 0 ? 1 : total_tests));
@@ -112,8 +104,7 @@ void print_test_summary()
 /**
  * runs the function passed in and prints a test summary
  */
-void run_test(void (*func)(), const char *message)
-{
+void run_test(void (*func)(), const char *message) {
   printf("=================== Running %s Tests. ===================\n",
          message);
   func();
@@ -137,27 +128,24 @@ void run_test(void (*func)(), const char *message)
  *
  * i.e. argv[1] --> number of elements, thus argc - 2 == atoi(argv[1])
  */
-int main(int argc, char **argv)
-{
-  if (argc != 1 && argc - 2 != atoi(argv[1]))
-  {
+int main(int argc, char **argv) {
+  if (argc != 1 && argc - 2 != atoi(argv[1])) {
     // 触发一个错误，退出状态码为 1
-    fprintf(stderr, "Error: The number of elements inputted should correspond to the number of elements to be reversed.\n");
+    fprintf(stderr,
+            "Error: The number of elements inputted should correspond to the "
+            "number of elements to be reversed.\n");
     return 1;
   }
 
-  if (argc > 1)
-  {
+  if (argc > 1) {
     char *arr[argc];
-    for (int i = 0; i < argc - 2; i++)
-    {
+    for (int i = 0; i < argc - 2; i++) {
       arr[i] = argv[i + 2];
     }
 
     reverse_arr(arr, argc - 2);
 
-    for (int i = 0; i < argc - 2; i++)
-    {
+    for (int i = 0; i < argc - 2; i++) {
       printf("%s ", arr[i]);
     }
     printf("\n");
