@@ -17,3 +17,17 @@
  * Given an array ["hello", "my", "name", "is"], after calling reverse_arr
  * will result in ["is", "name", "my", "hello"]
  */
+void swap(char** arr, int index1, int index2) {
+    if (index1 == index2) {
+        return;
+    }
+    char* tem = *(arr + index1);
+    *(arr + index1) = *(arr + index2);
+    *(arr + index2) = tem;
+}
+
+void reverse_arr(char** arr, int num) {
+    for (int i = 0; i < num / 2; ++i) {
+        swap (arr, i, num - i - 1);
+    }
+}
