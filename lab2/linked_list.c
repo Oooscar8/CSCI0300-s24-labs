@@ -75,7 +75,31 @@ void *get_last(node_t *head_list)
  *
  * returns nothing
  */
-void insert_first(node_t **head_list, void *to_add, size_t size) { return; }
+void insert_first(node_t **head_list, void *to_add, size_t size)
+{
+  if (!to_add)
+  {
+    return;
+  }
+  node_t *new_element = (node_t *)malloc(sizeof(node_t));
+  void *new_data = malloc(size);
+  memcpy(new_data, to_add, size);
+  new_element->data = new_data;
+
+  if (!(*head_list))
+  { // means the list is empty
+    *head_list = new_element;
+    new_element->prev = NULL;
+    new_element->next = NULL;
+    return;
+  }
+
+  node_t *curr_head = *head_list;
+  *head_list = new_element;
+  new_element->prev = NULL;
+  new_element->next = curr_head;
+  curr_head->prev = new_element;
+}
 
 /**
  * inserts element at the end of the linked list
@@ -124,7 +148,30 @@ void insert_last(node_t **head_list, void *to_add, size_t size)
  *
  * returns the string associated with an index into the linked list
  */
-void *get(node_t *head_list, int index) { return NULL; }
+void *get(node_t *head_list, int index)
+{
+  if (index < 0)
+  {
+    return NULL;
+  }
+  if (!head_list)
+  {
+    return NULL;
+  }
+
+  node_t *curr = head_list;
+  while (index != 0)
+  {
+    if (curr->next)
+    {
+      curr = curr->next;
+      index -= 1;
+      continue;
+    }
+    return NULL;
+  }
+  return curr->data;
+}
 
 /**
  * removes element from linked list
@@ -232,7 +279,7 @@ void *remove_first(node_t **head_list)
     (*head_list)->prev = NULL;
   }
 
-  void* currData = curr->data;
+  void *currData = curr->data;
   free(curr);
   return currData;
 }
@@ -245,4 +292,28 @@ void *remove_first(node_t **head_list)
  * returns the void pointer of the element removed
  *
  */
-void *remove_last(node_t **head_list) { return NULL; }
+void *remove_last(node_t **head_list)
+{
+  if (!(*head_list))
+  {
+    return NULL;
+  }
+
+  node_t* curr = *head_list;
+  while (curr->next)
+  {
+    curr = curr->next;
+  }
+
+  void *removed_element = curr->data;
+  if (curr->prev == NULL)
+  {
+    *head_list = NULL;
+  }
+  else
+  {
+    curr->prev->next = NULL;
+  }
+  free(curr);
+  return removed_element;
+}
