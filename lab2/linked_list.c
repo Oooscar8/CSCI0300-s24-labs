@@ -92,8 +92,8 @@ void insert_last(node_t **head_list, void *to_add, size_t size)
     return;
   }
   node_t *new_element = (node_t *)malloc(sizeof(node_t));
-  void *new_data = malloc(size - 1);
-  memcpy(new_data, to_add, size - 1);
+  void *new_data = malloc(size);
+  memcpy(new_data, to_add, size);
   new_element->data = new_data;
 
   if (!(*head_list))
@@ -112,6 +112,7 @@ void insert_last(node_t **head_list, void *to_add, size_t size)
 
   curr->next = new_element;
   new_element->prev = curr;
+  new_element->next = NULL;
 }
 
 /** TODO: implement this!
@@ -178,7 +179,7 @@ void reverse_helper(node_t **head_list)
 {
   node_t *curr = *head_list;
   node_t *placeholder = NULL;
-  if (curr->next)
+  if (curr && curr->next)
   {
     while (curr)
     {
@@ -231,10 +232,9 @@ void *remove_first(node_t **head_list)
     (*head_list)->prev = NULL;
   }
 
-  free(curr->data);
+  void* currData = curr->data;
   free(curr);
-
-  return curr->data;
+  return currData;
 }
 
 /** TODO: implement this!
